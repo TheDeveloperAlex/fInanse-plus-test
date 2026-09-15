@@ -16,7 +16,7 @@ export function TextArea({ className = '', maxLength, value, ...props }: TextAre
         className={`min-h-20 w-full resize-none rounded-md border border-border bg-surface px-2.5 py-2 text-sm text-ink placeholder:text-ink-subtle hover:border-border-strong focus-visible:border-border-strong ${className}`}
       />
       {maxLength ? (
-        <span className="self-end text-[11px] text-ink-subtle">
+        <span className="self-end text-[11px] text-ink-muted">
           {length}/{maxLength}
         </span>
       ) : null}

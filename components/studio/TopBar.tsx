@@ -37,6 +37,32 @@ export function TopBar() {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
+  // Cmd/Ctrl+Z и Shift+Cmd/Ctrl+Z — глобальный undo/redo черновика. Не
+  // перехватываем, если фокус в текстовом поле: там Cmd+Z должен остаться
+  // нативным undo ввода, а не откатывать весь шаблон на шаг назад.
+  useEffect(() => {
+    function isTextEditable(element: Element | null): boolean {
+      if (!element) return false;
+      const tagName = element.tagName;
+      return tagName === 'INPUT' || tagName === 'TEXTAREA';
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 'z') return;
+      if (isTextEditable(document.activeElement)) return;
+
+      event.preventDefault();
+      if (event.shiftKey) {
+        redo();
+      } else {
+        undo();
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [undo, redo]);
+
   const nameError = name.trim().length === 0;
 
   return (
@@ -51,7 +77,7 @@ export function TopBar() {
           aria-invalid={nameError}
           className="h-8 min-w-0 rounded-md border border-transparent bg-transparent px-1.5 text-sm font-medium text-ink hover:border-border focus-visible:border-border-strong"
         />
-        {isDirty ? <span className="shrink-0 text-[11px] text-ink-subtle">Not saved</span> : null}
+        {isDirty ? <span className="shrink-0 text-[11px] text-ink-muted">Not saved</span> : null}
       </div>
 
       <div className="flex items-center gap-3">

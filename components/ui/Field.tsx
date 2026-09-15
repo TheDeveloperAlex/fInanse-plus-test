@@ -20,7 +20,7 @@ export function Field({ label, htmlFor, hint, error, children }: FieldProps) {
       {error ? (
         <p className="text-[11px] text-danger">{error}</p>
       ) : hint ? (
-        <p className="text-[11px] text-ink-subtle">{hint}</p>
+        <p className="text-[11px] text-ink-muted">{hint}</p>
       ) : null}
     </div>
   );
