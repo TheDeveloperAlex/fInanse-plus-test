@@ -12,6 +12,7 @@ import {
   headerAlignAtom,
 } from '@/lib/atoms/settings';
 import type { Currency, DateFormat, Density, DocumentFont, HeaderAlign } from '@/lib/types';
+import { SettingsSection } from './SettingsSection';
 
 const FONT_OPTIONS: SelectOption<DocumentFont>[] = [
   { value: 'sans', label: 'Sans' },
@@ -51,8 +52,7 @@ export function LayoutSection() {
 
   return (
     <div className="divide-y divide-border">
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">Document</h2>
+      <SettingsSection title="Document">
         <Field label="Font" htmlFor="doc-font">
           <Select id="doc-font" value={font} onValueChange={setFont} options={FONT_OPTIONS} />
         </Field>
@@ -74,10 +74,9 @@ export function LayoutSection() {
             aria-label="Header alignment"
           />
         </Field>
-      </section>
+      </SettingsSection>
 
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">Formatting</h2>
+      <SettingsSection title="Formatting">
         <Field label="Currency" htmlFor="currency">
           <Select
             id="currency"
@@ -94,7 +93,7 @@ export function LayoutSection() {
             options={DATE_FORMAT_OPTIONS}
           />
         </Field>
-      </section>
+      </SettingsSection>
     </div>
   );
 }
