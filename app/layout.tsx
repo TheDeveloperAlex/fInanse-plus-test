@@ -1,4 +1,8 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
+import { ThemeHydrator } from '@/components/providers/ThemeHydrator';
+import type { Theme } from '@/lib/atoms/ui';
+import { THEME_COOKIE_NAME } from '@/lib/theme-cookie';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -6,24 +10,19 @@ export const metadata: Metadata = {
   description: 'Настройка шаблона счёта с живым предпросмотром',
 };
 
-const THEME_INIT_SCRIPT = `
-(function () {
-  try {
-    var theme = localStorage.getItem('its:theme');
-    if (theme === 'dark' || theme === 'light') {
-      document.documentElement.setAttribute('data-theme', theme);
-    }
-  } catch (e) {}
-})();
-`;
+async function readTheme(): Promise<Theme> {
+  const cookieStore = await cookies();
+  return cookieStore.get(THEME_COOKIE_NAME)?.value === 'dark' ? 'dark' : 'light';
+}
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const theme = await readTheme();
+
   return (
-    <html lang="en">
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-      </head>
-      <body className="font-sans antialiased">{children}</body>
+    <html lang="en" data-theme={theme}>
+      <body className="font-sans antialiased">
+        <ThemeHydrator theme={theme}>{children}</ThemeHydrator>
+      </body>
     </html>
   );
 }
