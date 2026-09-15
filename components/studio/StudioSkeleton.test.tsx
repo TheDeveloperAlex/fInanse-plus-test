@@ -25,4 +25,13 @@ describe('StudioSkeleton', () => {
     expect(container.innerHTML).toContain('md:flex-row');
     expect(container.innerHTML).toContain('md:w-panel');
   });
+
+  it('reserves space for the mobile Settings/Preview toggle bar below the md breakpoint', () => {
+    const { container } = render(<StudioSkeleton />);
+
+    // StudioBody.tsx renders an `md:hidden` SegmentedControl bar above the settings/preview
+    // split; without a matching placeholder here that bar's mount shifts everything below it.
+    expect(container.innerHTML).toContain('md:hidden');
+    expect(container.innerHTML).toContain('max-md:min-h-11');
+  });
 });

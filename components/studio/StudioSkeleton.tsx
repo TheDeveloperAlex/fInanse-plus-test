@@ -32,6 +32,17 @@ export function StudioSkeleton() {
       </div>
       {/* StudioBody стекает в столбец ниже `md` и раскладывается в строку начиная с `md`. */}
       <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
+        {/*
+          Мобильный тумблер Settings/Preview (StudioBody.tsx, `md:hidden`). Обёртка и
+          внутренние отступы/бордер повторяют реальные классы SegmentedControl 1:1
+          (а не подобранную на глаз высоту), чтобы box-model совпал точно.
+        */}
+        <div className="flex justify-center border-b border-border bg-surface p-2 md:hidden">
+          <div className="inline-flex rounded-md border border-border bg-surface-sunken p-0.5">
+            <SkeletonBlock className="h-7 w-20 max-md:min-h-11 max-md:w-24" />
+            <SkeletonBlock className="h-7 w-20 max-md:min-h-11 max-md:w-24" />
+          </div>
+        </div>
         <div className="flex">
           <div className="flex w-rail shrink-0 flex-col items-center gap-1 border-r border-border bg-surface-sunken py-2">
             <SkeletonBlock className="h-10 w-10 max-md:h-11 max-md:w-11" />
