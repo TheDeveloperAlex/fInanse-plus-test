@@ -18,6 +18,7 @@ import {
 } from '@/lib/atoms/settings';
 import { COLOR_PRESETS } from '@/lib/presets';
 import type { LogoSize } from '@/lib/types';
+import { SettingsSection } from './SettingsSection';
 
 const PRIMARY_PRESETS = COLOR_PRESETS.map((preset) => preset.primaryColor);
 const SECONDARY_PRESETS = COLOR_PRESETS.map((preset) => preset.secondaryColor);
@@ -41,8 +42,7 @@ export function BrandingSection() {
 
   return (
     <div className="divide-y divide-border">
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">General</h2>
+      <SettingsSection title="General">
         <Field label="Template name" htmlFor="template-name" error={nameError}>
           <TextInput
             id="template-name"
@@ -51,10 +51,9 @@ export function BrandingSection() {
             className="w-40"
           />
         </Field>
-      </section>
+      </SettingsSection>
 
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">Logo</h2>
+      <SettingsSection title="Logo">
         <div className="py-2">
           <LogoUploader value={logoDataUrl} onChange={setLogoDataUrl} />
         </div>
@@ -70,10 +69,9 @@ export function BrandingSection() {
             aria-label="Logo size"
           />
         </Field>
-      </section>
+      </SettingsSection>
 
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">Colors</h2>
+      <SettingsSection title="Colors">
         <Field label="Primary color" htmlFor="primary-color">
           <ColorField
             id="primary-color"
@@ -95,7 +93,7 @@ export function BrandingSection() {
         <Field label="Accent bar" htmlFor="show-accent-bar">
           <Toggle id="show-accent-bar" checked={showAccentBar} onCheckedChange={setShowAccentBar} />
         </Field>
-      </section>
+      </SettingsSection>
     </div>
   );
 }
