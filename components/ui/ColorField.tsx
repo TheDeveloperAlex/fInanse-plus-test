@@ -51,11 +51,12 @@ export function ColorField({ id, value, onChange, label, presets }: ColorFieldPr
             className="mt-2 h-control w-full rounded-md border border-border bg-surface px-2.5 text-sm uppercase text-ink hover:border-border-strong focus-visible:border-border-strong"
           />
 
-          {lowContrast ? (
-            <p className="mt-2 text-[11px] text-danger">
-              Low contrast on white paper ({formatContrastRatio(contrast)})
-            </p>
-          ) : null}
+          {/* Место всегда зарезервировано (visibility, не conditional render) — иначе
+              при перетаскивании пикера контраст пересекает порог много раз в секунду,
+              и появление/исчезновение строки дёргает пресеты ниже (CLS). */}
+          <p className={`mt-2 text-[11px] text-danger ${lowContrast ? '' : 'invisible'}`}>
+            Low contrast on white paper ({formatContrastRatio(contrast)})
+          </p>
 
           <div className="mt-3 grid grid-cols-4 gap-1.5">
             {presets.map((preset) => (

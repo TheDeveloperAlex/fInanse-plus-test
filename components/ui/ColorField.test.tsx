@@ -10,17 +10,21 @@ describe('ColorField', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Primary Color' }));
 
-    expect(await screen.findByText(/Low contrast on white paper/)).toBeInTheDocument();
+    expect(await screen.findByText(/Low contrast on white paper/)).not.toHaveClass('invisible');
   });
 
-  it('does not warn for a color with sufficient contrast', () => {
+  it('reserves space for the warning but keeps it invisible for sufficient contrast', () => {
     render(
       <ColorField value="#14161b" onChange={() => {}} label="Primary Color" presets={['#2f6fed']} />,
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Primary Color' }));
 
-    expect(screen.queryByText(/Low contrast on white paper/)).not.toBeInTheDocument();
+    // The warning stays in the DOM (space reserved, no layout shift while dragging
+    // the picker) — only its visibility toggles via the `invisible` class, it
+    // never mounts/unmounts. jsdom doesn't load Tailwind's stylesheet, so
+    // asserting on the class is what's actually checkable here (not toBeVisible()).
+    expect(screen.getByText(/Low contrast on white paper/)).toHaveClass('invisible');
   });
 
   it('applies a preset color when clicked', () => {

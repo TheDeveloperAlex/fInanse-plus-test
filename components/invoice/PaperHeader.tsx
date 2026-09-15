@@ -1,6 +1,7 @@
 'use client';
 
 import { useAtomValue } from 'jotai';
+import { Image as ImageIcon } from 'lucide-react';
 import { formatDate } from '@/lib/format';
 import { SAMPLE_INVOICE } from '@/lib/sample-invoice';
 import {
@@ -41,16 +42,25 @@ export function PaperHeader({ headerAlign }: PaperHeaderProps) {
         }`}
       >
         <div className="flex items-center gap-3">
-          {showLogo && logoDataUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element -- data URL логотипа, next/image не подходит (ADR-15)
-            <img
-              src={logoDataUrl}
-              alt=""
-              width={logoPx}
-              height={logoPx}
-              className="object-contain"
-              style={{ width: logoPx, height: logoPx }}
-            />
+          {showLogo ? (
+            logoDataUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element -- data URL логотипа, next/image не подходит (ADR-15)
+              <img
+                src={logoDataUrl}
+                alt=""
+                width={logoPx}
+                height={logoPx}
+                className="object-contain"
+                style={{ width: logoPx, height: logoPx }}
+              />
+            ) : (
+              <div
+                className="flex shrink-0 items-center justify-center rounded-sm border border-dashed border-gray-300 text-gray-400"
+                style={{ width: logoPx, height: logoPx }}
+              >
+                <ImageIcon className="size-1/2" />
+              </div>
+            )
           ) : null}
           <h1 className="text-[32px] font-semibold leading-none text-gray-900">{heading}</h1>
         </div>
