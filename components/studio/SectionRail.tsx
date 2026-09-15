@@ -2,6 +2,7 @@
 
 import { FileText, LayoutGrid, PaintBucket, type LucideIcon } from 'lucide-react';
 import { Tabs } from 'radix-ui';
+import { Tooltip } from '@/components/ui/Tooltip';
 import type { StudioSection } from '@/lib/atoms/ui';
 
 const SECTIONS: { value: StudioSection; label: string; Icon: LucideIcon }[] = [
@@ -17,15 +18,15 @@ export function SectionRail() {
       className="flex w-rail shrink-0 flex-col items-center gap-1 border-r border-border bg-surface-sunken py-2"
     >
       {SECTIONS.map(({ value, label, Icon }) => (
-        <Tabs.Trigger
-          key={value}
-          value={value}
-          title={label}
-          aria-label={label}
-          className="flex h-10 w-10 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-surface-hover data-[state=active]:bg-surface data-[state=active]:text-ink"
-        >
-          <Icon className="size-4" />
-        </Tabs.Trigger>
+        <Tooltip key={value} label={label}>
+          <Tabs.Trigger
+            value={value}
+            aria-label={label}
+            className="flex h-10 w-10 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-surface-hover data-[state=active]:bg-surface data-[state=active]:text-ink"
+          >
+            <Icon className="size-4" />
+          </Tabs.Trigger>
+        </Tooltip>
       ))}
     </Tabs.List>
   );

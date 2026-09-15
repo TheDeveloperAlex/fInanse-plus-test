@@ -2,6 +2,7 @@
 
 import { useAtom } from 'jotai';
 import { Minus, Plus, Printer } from 'lucide-react';
+import { Tooltip } from '@/components/ui/Tooltip';
 import { zoomAtom } from '@/lib/atoms/ui';
 import { formatZoom } from '@/lib/format';
 import printStyles from '@/styles/print.module.css';
@@ -21,25 +22,29 @@ export function CanvasToolbar() {
     <div
       className={`flex h-10 max-md:h-14 shrink-0 items-center justify-center gap-1.5 border-t border-border bg-surface px-3 ${printStyles.hideOnPrint}`}
     >
-      <button
-        type="button"
-        aria-label="Zoom out"
-        onClick={() => setZoom(clampZoom(zoom - ZOOM_STEP))}
-        className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
-      >
-        <Minus className="size-3.5" />
-      </button>
+      <Tooltip label="Zoom out">
+        <button
+          type="button"
+          aria-label="Zoom out"
+          onClick={() => setZoom(clampZoom(zoom - ZOOM_STEP))}
+          className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
+        >
+          <Minus className="size-3.5" />
+        </button>
+      </Tooltip>
       <span className="w-12 text-center text-xs tabular-nums text-ink-muted">
         {formatZoom(zoom)}
       </span>
-      <button
-        type="button"
-        aria-label="Zoom in"
-        onClick={() => setZoom(clampZoom(zoom + ZOOM_STEP))}
-        className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
-      >
-        <Plus className="size-3.5" />
-      </button>
+      <Tooltip label="Zoom in">
+        <button
+          type="button"
+          aria-label="Zoom in"
+          onClick={() => setZoom(clampZoom(zoom + ZOOM_STEP))}
+          className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
+        >
+          <Plus className="size-3.5" />
+        </button>
+      </Tooltip>
       <button
         type="button"
         onClick={() => setZoom(1)}
@@ -47,14 +52,16 @@ export function CanvasToolbar() {
       >
         Fit
       </button>
-      <button
-        type="button"
-        aria-label="Print"
-        onClick={() => window.print()}
-        className="ml-1 flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
-      >
-        <Printer className="size-3.5" />
-      </button>
+      <Tooltip label="Print">
+        <button
+          type="button"
+          aria-label="Print"
+          onClick={() => window.print()}
+          className="ml-1 flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
+        >
+          <Printer className="size-3.5" />
+        </button>
+      </Tooltip>
     </div>
   );
 }

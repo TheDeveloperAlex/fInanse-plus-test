@@ -113,7 +113,7 @@
 
 | Пакет | Что закрывает |
 |---|---|
-| `radix-ui` (unified) | `Popover` (контейнер для пикера), `Tabs`/`ToggleGroup` (разделы, сегментированные контролы), `Switch` (тумблеры), `Select`, `Slider` (зум), `Tooltip`, `Accordion`, `AlertDialog` (подтверждение сброса) |
+| `radix-ui` (unified) | `Popover` (контейнер для пикера), `Tabs`/`ToggleGroup` (разделы, сегментированные контролы, мобильный переключатель), `Switch` (тумблеры), `Select`, `AlertDialog` (подтверждение сброса), `Tooltip` (подписи icon-only кнопок). Зум реализован пошаговыми кнопками, а не `Slider` — раскладка в UI-SPEC рисует `[− 100% +]`, не трек. `Accordion` не потребовался, см. ADR-2 |
 | `react-colorful` | `HexColorPicker` + `HexColorInput` — ровно та задача, ради которой вы предложили UI-lib |
 | `lucide-react` | Иконки |
 

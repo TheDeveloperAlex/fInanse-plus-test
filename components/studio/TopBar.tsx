@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { AlertDialog } from 'radix-ui';
 import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
+import { Tooltip } from '@/components/ui/Tooltip';
 import { nameAtom, settingsAtom } from '@/lib/atoms/settings';
 import { canRedoAtom, canUndoAtom, redoAtom, resetHistoryAtom, undoAtom } from '@/lib/atoms/history';
 import { cancelAtom, isDirtyAtom, markHydratedAtom, saveAtom } from '@/lib/atoms/saved';
@@ -82,32 +83,38 @@ export function TopBar() {
 
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1">
-          <button
-            type="button"
-            aria-label="Undo"
-            disabled={!canUndo}
-            onClick={() => undo()}
-            className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Undo2 className="size-3.5" />
-          </button>
-          <button
-            type="button"
-            aria-label="Redo"
-            disabled={!canRedo}
-            onClick={() => redo()}
-            className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Redo2 className="size-3.5" />
-          </button>
-          <button
-            type="button"
-            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
-          >
-            {theme === 'dark' ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
-          </button>
+          <Tooltip label="Undo">
+            <button
+              type="button"
+              aria-label="Undo"
+              disabled={!canUndo}
+              onClick={() => undo()}
+              className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Undo2 className="size-3.5" />
+            </button>
+          </Tooltip>
+          <Tooltip label="Redo">
+            <button
+              type="button"
+              aria-label="Redo"
+              disabled={!canRedo}
+              onClick={() => redo()}
+              className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Redo2 className="size-3.5" />
+            </button>
+          </Tooltip>
+          <Tooltip label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}>
+            <button
+              type="button"
+              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
+            >
+              {theme === 'dark' ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
+            </button>
+          </Tooltip>
         </div>
 
         <AlertDialog.Root>
