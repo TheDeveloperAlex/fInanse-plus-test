@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { Upload, X } from 'lucide-react';
+import { Button } from './Button';
 
 const MAX_SIZE_BYTES = 1024 * 1024;
 const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
@@ -46,14 +47,10 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
             alt="Logo preview"
             className="h-10 w-10 rounded-sm border border-border bg-surface object-contain"
           />
-          <button
-            type="button"
-            onClick={() => onChange(null)}
-            className="inline-flex h-control items-center gap-1.5 rounded-md border border-border px-2.5 text-xs text-ink-muted hover:bg-surface-hover"
-          >
+          <Button variant="ghost" onClick={() => onChange(null)}>
             <X className="size-3.5" />
             Remove
-          </button>
+          </Button>
         </div>
       ) : (
         <button
