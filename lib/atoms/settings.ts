@@ -43,3 +43,17 @@ export const densityAtom = fieldOf(layoutAtom, 'density');
 export const headerAlignAtom = fieldOf(layoutAtom, 'headerAlign');
 export const currencyAtom = fieldOf(layoutAtom, 'currency');
 export const dateFormatAtom = fieldOf(layoutAtom, 'dateFormat');
+
+/**
+ * Подписка на этот атом монтирует settingsAtom, запуская чтение черновика
+ * из localStorage (onMount у atomWithStorage срабатывает только при реальной
+ * подписке через store.sub, а не при обычном get) — см. HydrationGate.tsx,
+ * которому нужно это чтение завершённым ДО markHydratedAtom, а не после.
+ * Значение всегда null, чтобы подписчик не перерендеривался при каждом
+ * изменении settingsAtom — задача этого атома только в побочном эффекте
+ * монтирования, а не в передаче данных.
+ */
+export const settingsMountTriggerAtom = atom((get) => {
+  get(settingsAtom);
+  return null;
+});

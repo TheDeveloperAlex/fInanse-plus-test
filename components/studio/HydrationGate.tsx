@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, type ReactNode } from 'react';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { resetHistoryAtom } from '@/lib/atoms/history';
 import { isHydratedAtom, markHydratedAtom } from '@/lib/atoms/saved';
+import { settingsMountTriggerAtom } from '@/lib/atoms/settings';
 import { StudioSkeleton } from './StudioSkeleton';
 
 type HydrationGateProps = {
@@ -14,6 +15,16 @@ export function HydrationGate({ children }: HydrationGateProps) {
   const [isHydrated, setHydrated] = useAtom(isHydratedAtom);
   const markHydrated = useSetAtom(markHydratedAtom);
   const resetHistory = useSetAtom(resetHistoryAtom);
+
+  // useSetAtom never subscribes settingsAtom, so its atomWithStorage onMount
+  // (the actual localStorage read) would otherwise only fire once TopBar/
+  // StudioBody mount a lens of it — which happens AFTER this gate's own effect
+  // below, since children stay unmounted behind `isHydrated` until then. This
+  // subscription forces that mount first: React flushes effects for hooks
+  // within one component in call order, so useAtomValue's internal mount
+  // effect runs before the useEffect below in the same commit, and
+  // markHydrated() below reads the real persisted draft instead of DEFAULTS.
+  useAtomValue(settingsMountTriggerAtom);
 
   // Черновик из localStorage гидрируется в эффекте атома (jotai onMount), а не
   // во время рендера. Сразу после монтирования фиксируем его как "сохранённый"
