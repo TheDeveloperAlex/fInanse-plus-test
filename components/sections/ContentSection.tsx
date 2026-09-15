@@ -7,6 +7,7 @@ import { TextInput } from '@/components/ui/TextInput';
 import { Toggle } from '@/components/ui/Toggle';
 import { headingAtom, labelsAtom, showBlocksAtom, statementAtom, termsAtom } from '@/lib/atoms/settings';
 import type { BlockKey, LabelKey } from '@/lib/types';
+import { SettingsSection } from './SettingsSection';
 
 const LABEL_FIELDS: { key: LabelKey; fieldLabel: string }[] = [
   { key: 'invoiceNumber', fieldLabel: 'Invoice number' },
@@ -41,8 +42,7 @@ export function ContentSection() {
 
   return (
     <div className="divide-y divide-border">
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">Document</h2>
+      <SettingsSection title="Document">
         <Field label="Heading" htmlFor="doc-heading">
           <TextInput
             id="doc-heading"
@@ -51,10 +51,9 @@ export function ContentSection() {
             className="w-40"
           />
         </Field>
-      </section>
+      </SettingsSection>
 
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">Labels</h2>
+      <SettingsSection title="Labels">
         {LABEL_FIELDS.map(({ key, fieldLabel }) => (
           <Field key={key} label={fieldLabel} htmlFor={`label-${key}`}>
             <TextInput
@@ -65,10 +64,9 @@ export function ContentSection() {
             />
           </Field>
         ))}
-      </section>
+      </SettingsSection>
 
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">Visibility</h2>
+      <SettingsSection title="Visibility">
         {BLOCK_FIELDS.map(({ key, fieldLabel }) => (
           <Field key={key} label={fieldLabel} htmlFor={`show-${key}`}>
             <Toggle
@@ -78,10 +76,9 @@ export function ContentSection() {
             />
           </Field>
         ))}
-      </section>
+      </SettingsSection>
 
-      <section className="py-3">
-        <h2 className="text-[13px] font-semibold text-ink">Terms &amp; Statement</h2>
+      <SettingsSection title="Terms & Statement">
         <div className="py-2">
           <label htmlFor="terms" className="text-xs font-medium text-ink-muted">
             Terms &amp; Conditions
@@ -108,7 +105,7 @@ export function ContentSection() {
             />
           </div>
         </div>
-      </section>
+      </SettingsSection>
     </div>
   );
 }
