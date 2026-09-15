@@ -5,7 +5,7 @@ import { Button } from './Button';
 describe('Button', () => {
   it('defaults to the secondary variant', () => {
     render(<Button>Cancel</Button>);
-    expect(screen.getByRole('button', { name: 'Cancel' }).className).toContain('bg-surface');
+    expect(screen.getByRole('button', { name: 'Cancel' }).className).toContain('border-border');
   });
 
   it('applies the primary variant classes', () => {

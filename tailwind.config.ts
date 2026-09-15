@@ -26,7 +26,7 @@ const config: Config = {
           DEFAULT: 'var(--accent)',
           ink: 'var(--accent-ink)',
         },
-        danger: 'var(--danger)',
+        danger: 'rgb(var(--danger-rgb) / <alpha-value>)',
       },
       borderRadius: {
         xs: 'var(--r-xs)',

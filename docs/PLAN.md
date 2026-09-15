@@ -235,6 +235,8 @@ invoice-template-studio/
 │  ├─ studio/
 │  │  ├─ TemplateStudio.tsx   # общий каркас (grid: topbar / rail / panel / canvas)
 │  │  ├─ TopBar.tsx           # инлайн-имя шаблона, undo/redo, тема, Cancel/Save
+│  │  ├─ StudioBody.tsx       # моб. переключатель Settings/Preview + адаптивный layout
+│  │  ├─ SettingsWorkspace.tsx # рейл + панель настроек в общем Radix Tabs.Root
 │  │  ├─ SectionRail.tsx      # иконочная навигация разделов
 │  │  ├─ SettingsPanel.tsx    # рендер активного раздела
 │  │  ├─ PreviewCanvas.tsx    # холст, зум, центрирование
@@ -276,7 +278,9 @@ invoice-template-studio/
 │  │  ├─ ui.ts                # активный раздел, зум, тема
 │  │  └─ derived.ts           # selectAtom для документа, расчёт итогов
 │  ├─ lens.ts                 # getIn / setIn + типизированный Path<T>
-│  └─ format.ts               # валюта, даты, форматирование сумм
+│  ├─ format.ts               # валюта, даты, форматирование сумм
+│  ├─ contrast.ts             # расчёт WCAG contrast ratio
+│  └─ totals.ts               # чистая функция calculateTotals()
 ├─ styles/
 │  └─ print.module.css        # @media print / @page
 ├─ public/

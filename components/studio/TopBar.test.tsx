@@ -32,4 +32,10 @@ describe('TopBar keyboard shortcuts', () => {
 
     expect(nameInput).toHaveValue('Acme');
   });
+
+  it('opens the reset confirmation dialog', () => {
+    render(<TopBar />);
+    fireEvent.click(screen.getByRole('button', { name: 'Reset' }));
+    expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+  });
 });

@@ -16,6 +16,7 @@
   --accent: #14161b;
   --accent-ink: #ffffff;
   --danger: #c0362c;
+  --danger-rgb: 192 54 44;
 
   --r-xs: 4px;
   --r-sm: 6px;
@@ -43,6 +44,7 @@
   --accent: #eceef1;
   --accent-ink: #14161b;
   --danger: #e5534b;
+  --danger-rgb: 229 83 75;
 }
 
 * {
