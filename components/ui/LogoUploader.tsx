@@ -6,6 +6,7 @@ import { Button } from './Button';
 
 const MAX_SIZE_BYTES = 1024 * 1024;
 const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
+const NBSP = ' ';
 
 type LogoUploaderProps = {
   value: string | null;
@@ -86,7 +87,10 @@ export function LogoUploader({ value, onChange }: LogoUploaderProps) {
           event.target.value = '';
         }}
       />
-      {error ? <p className="text-[11px] text-danger">{error}</p> : null}
+      {/* Всегда в DOM (только toggle invisible) — тот же приём, что и у
+          предупреждения о контрасте в ColorField, чтобы место под ошибкой
+          не дёргало разметку при появлении/исчезновении. */}
+      <p className={`text-[11px] text-danger ${error ? '' : 'invisible'}`}>{error || NBSP}</p>
     </div>
   );
 }

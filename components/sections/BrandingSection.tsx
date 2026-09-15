@@ -43,7 +43,7 @@ export function BrandingSection() {
   return (
     <div className="divide-y divide-border">
       <SettingsSection title="General">
-        <Field label="Template name" htmlFor="template-name" error={nameError}>
+        <Field label="Template name" htmlFor="template-name" error={nameError} reserveMessageSpace>
           <TextInput
             id="template-name"
             value={name}
