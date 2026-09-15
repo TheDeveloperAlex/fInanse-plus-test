@@ -1,7 +1,7 @@
 import { createStore } from 'jotai';
 import { describe, expect, it } from 'vitest';
 import { DEFAULTS } from '../defaults';
-import { cancelAtom, isDirtyAtom, saveAtom, savedSettingsAtom } from './saved';
+import { cancelAtom, isDirtyAtom, isHydratedAtom, saveAtom, savedSettingsAtom } from './saved';
 import { nameAtom, settingsAtom } from './settings';
 
 describe('Save/Cancel baseline (ADR-12)', () => {
@@ -37,5 +37,13 @@ describe('Save/Cancel baseline (ADR-12)', () => {
     store.set(cancelAtom);
     expect(store.get(settingsAtom).name).toBe('Acme');
     expect(store.get(isDirtyAtom)).toBe(false);
+  });
+});
+
+describe('isHydratedAtom', () => {
+  it('starts false', () => {
+    const store = createStore();
+
+    expect(store.get(isHydratedAtom)).toBe(false);
   });
 });

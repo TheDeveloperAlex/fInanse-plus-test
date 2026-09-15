@@ -24,3 +24,6 @@ export const cancelAtom = atom(null, (get, set) => {
 export const markHydratedAtom = atom(null, (get, set) => {
   set(savedSettingsAtom, get(settingsAtom));
 });
+
+/** true после того, как HydrationGate подтвердил, что черновик подхвачен из localStorage (ADR-19). */
+export const isHydratedAtom = atom(false);
