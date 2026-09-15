@@ -242,7 +242,8 @@ invoice-template-studio/
 │  ├─ sections/
 │  │  ├─ BrandingSection.tsx  # General: имя, логотип, цвета, пресеты
 │  │  ├─ ContentSection.tsx   # видимость блоков, лейблы, тексты
-│  │  └─ LayoutSection.tsx    # шрифт, плотность, выравнивание шапки
+│  │  ├─ LayoutSection.tsx    # шрифт, плотность, выравнивание шапки
+│  │  └─ SettingsSection.tsx  # обёртка «заголовок + py-4» для трёх секций выше
 │  ├─ invoice/
 │  │  ├─ InvoicePaper.tsx     # корневой компонент документа
 │  │  ├─ PaperHeader.tsx      # заголовок + логотип + метаданные
@@ -258,7 +259,11 @@ invoice-template-studio/
 │     ├─ Select.tsx           # Radix Select
 │     ├─ SegmentedControl.tsx # Radix ToggleGroup
 │     ├─ ColorField.tsx       # Radix Popover + react-colorful + палитра пресетов
-│     └─ LogoUploader.tsx     # drag&drop + file input + превью
+│     ├─ LogoUploader.tsx     # drag&drop + file input + превью
+│     ├─ Tooltip.tsx          # Radix Tooltip, подписи icon-only кнопок
+│     ├─ Button.tsx           # 4 варианта по UI-SPEC (Primary/Secondary/Ghost/Danger-ghost)
+│     ├─ IconButton.tsx       # квадратная icon-only кнопка, Tooltip встроен
+│     └─ buttonVariants.ts    # общие классы вариантов для Button и IconButton
 ├─ lib/
 │  ├─ types.ts                # TemplateSettings и все подтипы
 │  ├─ defaults.ts             # значения по умолчанию
