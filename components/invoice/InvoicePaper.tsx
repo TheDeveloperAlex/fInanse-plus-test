@@ -9,6 +9,7 @@ import {
   primaryColorAtom,
   secondaryColorAtom,
 } from '@/lib/atoms/settings';
+import { zoomAtom } from '@/lib/atoms/ui';
 import type { DocumentFont } from '@/lib/types';
 import { ItemsTable } from './ItemsTable';
 import { PaperFooter } from './PaperFooter';
@@ -35,11 +36,13 @@ export function InvoicePaper() {
   const font = useAtomValue(fontAtom);
   const density = useAtomValue(densityAtom);
   const headerAlign = useAtomValue(headerAlignAtom);
+  const zoom = useAtomValue(zoomAtom);
 
   const paperStyle: PaperCSSVariables = {
     '--tpl-primary': primaryColor,
     '--tpl-secondary': secondaryColor,
     '--tpl-font': FONT_STACKS[font],
+    transform: `scale(${zoom})`,
   };
 
   return (

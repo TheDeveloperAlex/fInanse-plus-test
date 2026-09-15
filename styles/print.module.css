@@ -1,0 +1,15 @@
+/* @media print — каскадная логика, которую утилитами не выразить (ADR-5). */
+@media print {
+  .hideOnPrint {
+    display: none !important;
+  }
+
+  .printSurface {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    overflow: visible !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+}

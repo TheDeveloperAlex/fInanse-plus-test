@@ -3,6 +3,7 @@
 import { useAtom } from 'jotai';
 import { Tabs } from 'radix-ui';
 import { activeSectionAtom, type StudioSection } from '@/lib/atoms/ui';
+import printStyles from '@/styles/print.module.css';
 import { SectionRail } from './SectionRail';
 import { SettingsPanel } from './SettingsPanel';
 
@@ -22,7 +23,7 @@ export function SettingsWorkspace() {
         if (isStudioSection(next)) setSection(next);
       }}
       orientation="vertical"
-      className="flex"
+      className={`flex ${printStyles.hideOnPrint}`}
     >
       <SectionRail />
       <SettingsPanel />
