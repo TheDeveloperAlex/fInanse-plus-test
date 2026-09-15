@@ -13,6 +13,12 @@ function SkeletonBlock({ className = '' }: SkeletonBlockProps) {
  * экранах, где StudioBody складывает колонки в столбец. Обёртка —
  * `display: contents`, чтобы её дети встали прямо в flex-col родителя
  * (TemplateStudio), а не создавали лишний вложенный блок.
+ *
+ * Превью-колонка скрыта по умолчанию ниже `md` (`hidden md:flex`) — так же,
+ * как StudioBody.tsx скрывает её, пока mobileViewAtom не переключён на
+ * 'preview' (по умолчанию 'settings'). Без этого на узком экране скелет
+ * показывает лишний блок, который исчезает после гидратации — CLS именно там,
+ * где предыдущие раунды фикса уже закрывали другие источники сдвига.
  */
 export function StudioSkeleton() {
   return (
@@ -59,7 +65,7 @@ export function StudioSkeleton() {
             <SkeletonBlock className="h-8 w-full" />
           </div>
         </div>
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="hidden flex-1 flex-col overflow-hidden md:flex">
           <div className="flex flex-1 items-start justify-center overflow-auto p-4 md:p-8">
             <div className="w-[794px] max-w-full space-y-4 rounded-sm bg-surface p-12 shadow-sm">
               <SkeletonBlock className="h-8 w-1/3" />

@@ -34,4 +34,14 @@ describe('StudioSkeleton', () => {
     expect(container.innerHTML).toContain('md:hidden');
     expect(container.innerHTML).toContain('max-md:min-h-11');
   });
+
+  it('hides the preview column placeholder below md, matching mobileViewAtom defaulting to "settings"', () => {
+    const { container } = render(<StudioSkeleton />);
+
+    // StudioBody.tsx's preview pane is `hidden md:flex` by default (mobileViewAtom starts
+    // at 'settings', not 'preview'). Without the same default-hidden treatment here, the
+    // skeleton shows a preview placeholder on narrow viewports that the real, correctly
+    // hidden layout never renders — a CLS regression when it disappears post-hydration.
+    expect(container.innerHTML).toContain('hidden flex-1 flex-col overflow-hidden md:flex');
+  });
 });
