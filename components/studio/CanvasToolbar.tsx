@@ -19,13 +19,13 @@ export function CanvasToolbar() {
 
   return (
     <div
-      className={`flex h-10 shrink-0 items-center justify-center gap-1.5 border-t border-border bg-surface px-3 ${printStyles.hideOnPrint}`}
+      className={`flex h-10 max-md:h-14 shrink-0 items-center justify-center gap-1.5 border-t border-border bg-surface px-3 ${printStyles.hideOnPrint}`}
     >
       <button
         type="button"
         aria-label="Zoom out"
         onClick={() => setZoom(clampZoom(zoom - ZOOM_STEP))}
-        className="flex h-7 w-7 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
+        className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
       >
         <Minus className="size-3.5" />
       </button>
@@ -36,14 +36,14 @@ export function CanvasToolbar() {
         type="button"
         aria-label="Zoom in"
         onClick={() => setZoom(clampZoom(zoom + ZOOM_STEP))}
-        className="flex h-7 w-7 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
+        className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
       >
         <Plus className="size-3.5" />
       </button>
       <button
         type="button"
         onClick={() => setZoom(1)}
-        className="ml-1 rounded-md px-2.5 py-1 text-xs font-medium text-ink-muted hover:bg-surface-hover"
+        className="ml-1 rounded-md px-2.5 py-1 max-md:min-h-11 text-xs font-medium text-ink-muted hover:bg-surface-hover"
       >
         Fit
       </button>
@@ -51,7 +51,7 @@ export function CanvasToolbar() {
         type="button"
         aria-label="Print"
         onClick={() => window.print()}
-        className="ml-1 flex h-7 w-7 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
+        className="ml-1 flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
       >
         <Printer className="size-3.5" />
       </button>

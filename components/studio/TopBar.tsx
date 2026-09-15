@@ -61,7 +61,7 @@ export function TopBar() {
             aria-label="Undo"
             disabled={!canUndo}
             onClick={() => undo()}
-            className="flex h-7 w-7 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
           >
             <Undo2 className="size-3.5" />
           </button>
@@ -70,7 +70,7 @@ export function TopBar() {
             aria-label="Redo"
             disabled={!canRedo}
             onClick={() => redo()}
-            className="flex h-7 w-7 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
           >
             <Redo2 className="size-3.5" />
           </button>
@@ -78,7 +78,7 @@ export function TopBar() {
             type="button"
             aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="flex h-7 w-7 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
+            className="flex h-7 w-7 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted hover:bg-surface-hover"
           >
             {theme === 'dark' ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
           </button>
@@ -88,7 +88,7 @@ export function TopBar() {
           <AlertDialog.Trigger asChild>
             <button
               type="button"
-              className="rounded-md px-2.5 py-1.5 text-xs font-medium text-ink-muted hover:bg-surface-hover"
+              className="rounded-md px-2.5 py-1.5 max-md:min-h-11 text-xs font-medium text-ink-muted hover:bg-surface-hover"
             >
               Reset
             </button>
@@ -107,7 +107,7 @@ export function TopBar() {
                 <AlertDialog.Cancel asChild>
                   <button
                     type="button"
-                    className="rounded-md border border-border px-3 py-1.5 text-xs text-ink hover:bg-surface-hover"
+                    className="rounded-md border border-border px-3 py-1.5 max-md:min-h-11 text-xs text-ink hover:bg-surface-hover"
                   >
                     Cancel
                   </button>
@@ -116,7 +116,7 @@ export function TopBar() {
                   <button
                     type="button"
                     onClick={() => resetSettings(DEFAULTS)}
-                    className="rounded-md bg-danger px-3 py-1.5 text-xs font-medium text-white hover:opacity-90"
+                    className="rounded-md bg-danger px-3 py-1.5 max-md:min-h-11 text-xs font-medium text-white hover:opacity-90"
                   >
                     Reset
                   </button>
@@ -130,7 +130,7 @@ export function TopBar() {
           type="button"
           onClick={() => cancel()}
           disabled={!isDirty}
-          className="rounded-md border border-border px-3 py-1.5 text-xs text-ink hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-md border border-border px-3 py-1.5 max-md:min-h-11 text-xs text-ink hover:bg-surface-hover disabled:cursor-not-allowed disabled:opacity-40"
         >
           Cancel
         </button>
@@ -138,7 +138,7 @@ export function TopBar() {
           type="button"
           onClick={() => save()}
           disabled={!isDirty}
-          className="rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-accent-ink hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-md bg-accent px-3 py-1.5 max-md:min-h-11 text-xs font-medium text-accent-ink hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Save
         </button>

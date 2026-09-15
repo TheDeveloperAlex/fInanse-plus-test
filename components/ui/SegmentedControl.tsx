@@ -35,7 +35,7 @@ export function SegmentedControl<Value extends string>({
         <ToggleGroup.Item
           key={option.value}
           value={option.value}
-          className="rounded-sm px-2.5 py-1 text-xs font-medium text-ink-muted transition-colors data-[state=on]:bg-surface data-[state=on]:text-ink"
+          className="rounded-sm px-2.5 py-1 max-md:min-h-11 text-xs font-medium text-ink-muted transition-colors data-[state=on]:bg-surface data-[state=on]:text-ink"
         >
           {option.label}
         </ToggleGroup.Item>

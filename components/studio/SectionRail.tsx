@@ -22,7 +22,7 @@ export function SectionRail() {
           value={value}
           title={label}
           aria-label={label}
-          className="flex h-10 w-10 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-surface-hover data-[state=active]:bg-surface data-[state=active]:text-ink"
+          className="flex h-10 w-10 max-md:h-11 max-md:w-11 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-surface-hover data-[state=active]:bg-surface data-[state=active]:text-ink"
         >
           <Icon className="size-4" />
         </Tabs.Trigger>

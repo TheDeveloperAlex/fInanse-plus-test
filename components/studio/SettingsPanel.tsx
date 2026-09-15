@@ -7,7 +7,7 @@ import { LayoutSection } from '@/components/sections/LayoutSection';
 
 export function SettingsPanel() {
   return (
-    <div className="w-panel shrink-0 overflow-y-auto border-r border-border bg-surface px-4">
+    <div className="flex-1 overflow-y-auto border-r border-border bg-surface px-4 md:w-panel md:flex-none md:shrink-0">
       <Tabs.Content value="general" className="focus-visible:outline-none">
         <BrandingSection />
       </Tabs.Content>
