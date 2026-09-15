@@ -1,0 +1,43 @@
+{
+  "name": "invoice-template-studio",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "jotai": "2.20.3",
+    "jotai-history": "0.6.0",
+    "radix-ui": "1.6.7",
+    "react-colorful": "5.8.1",
+    "lucide-react": "1.46.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "26.5.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "autoprefixer": "10.6.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.5",
+    "jsdom": "30.0.1",
+    "postcss": "8.5.28",
+    "prettier": "3.9.6",
+    "tailwindcss": "3.4.19",
+    "typescript": "5.7.3",
+    "vitest": "5.0.1"
+  }
+}
