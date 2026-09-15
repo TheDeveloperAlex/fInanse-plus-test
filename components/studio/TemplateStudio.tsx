@@ -1,3 +1,5 @@
+import { InvoicePaper } from '@/components/invoice/InvoicePaper';
+
 export function TemplateStudio() {
   return (
     <div className="flex h-screen flex-col bg-canvas text-ink">
@@ -7,7 +9,9 @@ export function TemplateStudio() {
       <div className="flex flex-1 overflow-hidden">
         <nav className="flex w-rail shrink-0 flex-col border-r border-border bg-surface-sunken" />
         <aside className="w-panel shrink-0 overflow-y-auto border-r border-border bg-surface" />
-        <main className="flex flex-1 items-center justify-center overflow-auto">Canvas</main>
+        <main className="flex flex-1 items-center justify-center overflow-auto p-8">
+          <InvoicePaper />
+        </main>
       </div>
     </div>
   );
