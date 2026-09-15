@@ -5,6 +5,7 @@ import { ToggleGroup } from 'radix-ui';
 export type SegmentedOption<Value extends string> = { value: Value; label: string };
 
 type SegmentedControlProps<Value extends string> = {
+  id?: string;
   value: Value;
   onValueChange: (value: Value) => void;
   options: SegmentedOption<Value>[];

@@ -10,13 +10,14 @@ import styles from './ColorField.module.css';
 const MIN_CONTRAST_ON_PAPER = 3;
 
 type ColorFieldProps = {
+  id?: string;
   value: string;
   onChange: (value: string) => void;
   label: string;
   presets: string[];
 };
 
-export function ColorField({ value, onChange, label, presets }: ColorFieldProps) {
+export function ColorField({ id, value, onChange, label, presets }: ColorFieldProps) {
   const [open, setOpen] = useState(false);
   const inputId = useId();
   const contrast = contrastRatio(value, '#ffffff');
@@ -26,6 +27,7 @@ export function ColorField({ value, onChange, label, presets }: ColorFieldProps)
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
         <button
+          id={id}
           type="button"
           aria-label={label}
           className={styles.swatch}
