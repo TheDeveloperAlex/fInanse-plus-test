@@ -40,3 +40,8 @@ export function formatZoom(zoom: number): string {
     maximumFractionDigits: 0,
   }).format(zoom);
 }
+
+/** Контрастность (WCAG) — не сумма/дата/процент, у Intl нет стиля "ratio". */
+export function formatContrastRatio(ratio: number): string {
+  return `${ratio.toFixed(1)}:1`;
+}
