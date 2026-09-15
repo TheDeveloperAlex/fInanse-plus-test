@@ -1,14 +1,23 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { HydrationGate } from './HydrationGate';
 import { TopBar } from './TopBar';
 
 function fireUndo(target: Document | HTMLElement = document) {
   fireEvent.keyDown(target, { key: 'z', metaKey: true });
 }
 
+function renderTopBar() {
+  return render(
+    <HydrationGate>
+      <TopBar />
+    </HydrationGate>,
+  );
+}
+
 describe('TopBar keyboard shortcuts', () => {
   it('Cmd+Z triggers undo when focus is outside a text field', () => {
-    render(<TopBar />);
+    renderTopBar();
     const nameInput = screen.getByRole('textbox', { name: 'Rename template' });
 
     fireEvent.change(nameInput, { target: { value: 'Acme' } });
@@ -23,7 +32,7 @@ describe('TopBar keyboard shortcuts', () => {
   });
 
   it('Cmd+Z does not steal native undo while typing in a text field', () => {
-    render(<TopBar />);
+    renderTopBar();
     const nameInput = screen.getByRole('textbox', { name: 'Rename template' });
 
     fireEvent.change(nameInput, { target: { value: 'Acme' } });
@@ -34,7 +43,7 @@ describe('TopBar keyboard shortcuts', () => {
   });
 
   it('opens the reset confirmation dialog', () => {
-    render(<TopBar />);
+    renderTopBar();
     fireEvent.click(screen.getByRole('button', { name: 'Reset' }));
     expect(screen.getByRole('alertdialog')).toBeInTheDocument();
   });

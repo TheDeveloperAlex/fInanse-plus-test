@@ -7,10 +7,11 @@ import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
 import { nameAtom, settingsAtom } from '@/lib/atoms/settings';
-import { canRedoAtom, canUndoAtom, redoAtom, resetHistoryAtom, undoAtom } from '@/lib/atoms/history';
-import { cancelAtom, isDirtyAtom, markHydratedAtom, saveAtom } from '@/lib/atoms/saved';
+import { canRedoAtom, canUndoAtom, redoAtom, undoAtom } from '@/lib/atoms/history';
+import { cancelAtom, isDirtyAtom, saveAtom } from '@/lib/atoms/saved';
 import { themeAtom } from '@/lib/atoms/ui';
 import { DEFAULTS } from '@/lib/defaults';
+import { setThemeCookie } from '@/lib/theme-cookie';
 import printStyles from '@/styles/print.module.css';
 
 export function TopBar() {
@@ -23,20 +24,14 @@ export function TopBar() {
   const cancel = useSetAtom(cancelAtom);
   const save = useSetAtom(saveAtom);
   const resetSettings = useSetAtom(settingsAtom);
-  const markHydrated = useSetAtom(markHydratedAtom);
-  const resetHistory = useSetAtom(resetHistoryAtom);
   const [theme, setTheme] = useAtom(themeAtom);
 
-  // Черновик из localStorage гидрируется в эффекте атома (jotai onMount), а не
-  // во время рендера. Сразу после монтирования фиксируем его как "сохранённый"
-  // и обрезаем историю — иначе первый Undo откатил бы к DEFAULTS (ADR-3).
-  useEffect(() => {
-    markHydrated();
-    resetHistory();
-  }, [markHydrated, resetHistory]);
-
+  // Тема уже верна с первого байта (cookie + SSR, см. ThemeHydrator, ADR-18) —
+  // этот эффект нужен только для переключения ПОСЛЕ загрузки: обновляет
+  // атрибут на <html> и cookie, чтобы следующая перезагрузка тоже была верной.
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    setThemeCookie(theme);
   }, [theme]);
 
   // Cmd/Ctrl+Z и Shift+Cmd/Ctrl+Z — глобальный undo/redo черновика. Не
