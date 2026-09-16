@@ -2,12 +2,10 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useSetAtom } from 'jotai';
-import { InvoicePaper } from '@/components/invoice/InvoicePaper';
+import { InvoicePaper, PAPER_WIDTH_PX } from '@/components/invoice/InvoicePaper';
 import { zoomAtom } from '@/lib/atoms/ui';
 import printStyles from '@/styles/print.module.css';
 import { CanvasToolbar, clampZoom, ZOOM_STEP } from './CanvasToolbar';
-
-const PAPER_WIDTH_PX = 794;
 
 export function PreviewCanvas() {
   const setZoom = useSetAtom(zoomAtom);

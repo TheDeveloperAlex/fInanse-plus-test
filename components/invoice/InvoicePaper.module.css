@@ -3,6 +3,18 @@
  * (ADR-8): бумага всегда белая, текст всегда тёмный, независимо от
  * светлой/тёмной темы студии.
  */
+/*
+ * Обёртка вокруг .paper: её width/height выставляются инлайн-стилем в
+ * InvoicePaper.tsx как zoom * натуральный размер. transform: scale() на .paper
+ * не меняет его layout-box, поэтому без этой обёртки скролл-контейнер в
+ * PreviewCanvas всегда резервировал бы полный неотмасштабированный размер —
+ * "фантомная" прокручиваемая область без видимого содержимого при zoom < 100%.
+ * flex-shrink: 0 — .paperViewport это flex-child в PreviewCanvas.
+ */
+.paperViewport {
+  flex-shrink: 0;
+}
+
 .paper {
   --tpl-primary: #14161b;
   --tpl-secondary: #14161b;
@@ -13,12 +25,9 @@
    * вьюпорта (никакого max-width: 100%): раскладка на телефоне должна быть
    * идентична десктопу и итоговому PDF. Вписывание в экран — только через
    * transform: scale (PreviewCanvas.tsx) или горизонтальный/вертикальный скролл
-   * контейнера, никогда через сжатие самого документа. flex-shrink: 0 обязателен —
-   * .paper это flex-child в PreviewCanvas, и без него flex сжимает элемент ниже
-   * заданной width даже без max-width (сам по себе flex-shrink:1 по умолчанию).
+   * контейнера, никогда через сжатие самого документа.
    */
   width: 794px;
-  flex-shrink: 0;
   background: #ffffff;
   color: #14161b;
   border-radius: 2px;
@@ -46,6 +55,11 @@
 
 /* Печать/PDF: бумага на всю страницу без зума и тени (UI-SPEC "Доступность"). */
 @media print {
+  .paperViewport {
+    width: auto !important;
+    height: auto !important;
+  }
+
   .paper {
     box-shadow: none;
     transform: none !important;
