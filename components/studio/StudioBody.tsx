@@ -29,7 +29,7 @@ export function StudioBody() {
       </div>
 
       <div
-        className={`flex-1 overflow-hidden ${mobileView === 'preview' ? 'hidden md:flex' : 'flex md:flex'}`}
+        className={`flex-1 overflow-hidden md:flex-none ${mobileView === 'preview' ? 'hidden md:flex' : 'flex md:flex'}`}
       >
         <SettingsWorkspace />
       </div>
