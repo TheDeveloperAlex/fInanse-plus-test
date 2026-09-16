@@ -1,15 +1,48 @@
-/* @media print — каскадная логика, которую утилитами не выразить (ADR-5). */
+/*
+ * @media print — каскадная логика, которую утилитами не выразить (ADR-5).
+ *
+ * Студия — это flex/h-screen/overflow-hidden SPA-раскладка, рассчитанная на
+ * экран и скролл. В печати это ломается: overflow-hidden обрезает всё, что не
+ * умещается в один "экран", а width:auto/100% внутри flex-родителя (в отличие
+ * от блочного) не значит "во всю ширину", а значит "по контенту" — отсюда
+ * пустая страница в portrait и лист у левого края в landscape. printFlow
+ * разворачивает всю цепочку предков .paper обратно в обычный блочный поток
+ * (без overflow-обрезки и без flex), тогда .paper { width: 100% } (ниже, в
+ * InvoicePaper.module.css) наконец резолвится в реальную ширину страницы.
+ */
 @media print {
   .hideOnPrint {
     display: none !important;
   }
 
+  .printRoot {
+    display: block !important;
+    height: auto !important;
+    background: #ffffff !important;
+  }
+
+  .printFlow {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
   .printSurface {
+    display: block !important;
     padding: 0 !important;
     margin: 0 !important;
     background: none !important;
     overflow: visible !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
   }
+
+  :global(html),
+  :global(body) {
+    background: #ffffff !important;
+  }
+}
+
+/* Бумага задаёт собственные поля (padding по плотности) — печатаем без
+ * дополнительного поля браузера, чтобы .paper реально был всей страницей. */
+@page {
+  margin: 0;
 }

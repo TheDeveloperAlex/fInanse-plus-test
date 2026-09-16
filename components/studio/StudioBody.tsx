@@ -16,7 +16,7 @@ export function StudioBody() {
   const [mobileView, setMobileView] = useAtom(mobileViewAtom);
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
+    <div className={`flex flex-1 flex-col overflow-hidden md:flex-row ${printStyles.printFlow}`}>
       <div
         className={`flex justify-center border-b border-border bg-surface p-2 md:hidden ${printStyles.hideOnPrint}`}
       >
@@ -29,13 +29,13 @@ export function StudioBody() {
       </div>
 
       <div
-        className={`flex-1 overflow-hidden md:flex-none ${mobileView === 'preview' ? 'hidden md:flex' : 'flex md:flex'}`}
+        className={`flex-1 overflow-hidden md:flex-none ${printStyles.hideOnPrint} ${mobileView === 'preview' ? 'hidden md:flex' : 'flex md:flex'}`}
       >
         <SettingsWorkspace />
       </div>
 
       <div
-        className={`flex-1 overflow-hidden ${mobileView === 'settings' ? 'hidden md:flex' : 'flex md:flex'}`}
+        className={`flex-1 overflow-hidden ${printStyles.printFlow} ${mobileView === 'settings' ? 'hidden md:flex' : 'flex md:flex'}`}
       >
         <PreviewCanvas />
       </div>

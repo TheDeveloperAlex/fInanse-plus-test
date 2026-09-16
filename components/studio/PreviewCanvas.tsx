@@ -47,7 +47,7 @@ export function PreviewCanvas() {
   }, [setZoom]);
 
   return (
-    <div className="flex h-full flex-1 flex-col overflow-hidden">
+    <div className={`flex h-full flex-1 flex-col overflow-hidden ${printStyles.printFlow}`}>
       <div
         ref={paperContainerRef}
         className={`flex flex-1 items-start justify-start overflow-auto p-4 md:p-8 ${printStyles.printSurface}`}
