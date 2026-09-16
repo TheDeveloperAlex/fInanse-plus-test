@@ -8,8 +8,14 @@
   --tpl-secondary: #14161b;
   --tpl-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
+  /*
+   * Документ — фиксированный A4-формат, никогда не подстраивается под ширину
+   * вьюпорта (никакого max-width: 100%): раскладка на телефоне должна быть
+   * идентична десктопу и итоговому PDF. Вписывание в экран — только через
+   * transform: scale (PreviewCanvas.tsx) или горизонтальный/вертикальный скролл
+   * контейнера, никогда через сжатие самого документа.
+   */
   width: 794px;
-  max-width: 100%;
   background: #ffffff;
   color: #14161b;
   border-radius: 2px;

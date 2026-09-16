@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useSetAtom } from 'jotai';
 import { InvoicePaper } from '@/components/invoice/InvoicePaper';
 import { zoomAtom } from '@/lib/atoms/ui';
@@ -19,6 +19,26 @@ export function PreviewCanvas() {
   const setZoom = useSetAtom(zoomAtom);
   const paperContainerRef = useRef<HTMLDivElement>(null);
 
+  // Общий для авто-фита и кнопки "Fit" расчёт: ширина контейнера за вычетом
+  // его собственных отступов — то, что реально доступно бумаге.
+  const measureAvailableWidth = useCallback((): number | null => {
+    const container = paperContainerRef.current;
+    if (!container) return null;
+    const style = getComputedStyle(container);
+    const paddingLeft = parseFloat(style.paddingLeft);
+    const paddingRight = parseFloat(style.paddingRight);
+    return container.clientWidth - paddingLeft - paddingRight;
+  }, []);
+
+  // Кнопка "Fit" (CanvasToolbar) всегда пересчитывает реальное вписывание,
+  // а не сбрасывает зум на фиксированные 100% — документ на мобильном экране
+  // шире контейнера чаще, чем уже.
+  const fitToContainerWidth = useCallback(() => {
+    const available = measureAvailableWidth();
+    if (available === null) return;
+    setZoom(computeFitZoom(available));
+  }, [measureAvailableWidth, setZoom]);
+
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (!(event.metaKey || event.ctrlKey)) return;
@@ -35,16 +55,12 @@ export function PreviewCanvas() {
   }, [setZoom]);
 
   // UI-SPEC "Адаптив": подгоняем зум под реальную доступную ширину контейнера
-  // превью, а не под ширину окна — в двухколоночном layout колонка превью может
-  // быть уже 794px бумаги на любой ширине окна, не только "мобильной".
+  // превью при монтировании, ресайзе и повороте экрана — документ сам никогда
+  // не перестраивается (см. InvoicePaper.module.css), только масштабируется.
   useEffect(() => {
-    function fitToContainerWidth() {
-      const container = paperContainerRef.current;
-      if (!container) return;
-      const style = getComputedStyle(container);
-      const paddingLeft = parseFloat(style.paddingLeft);
-      const paddingRight = parseFloat(style.paddingRight);
-      const available = container.clientWidth - paddingLeft - paddingRight;
+    function autoFitIfNarrower() {
+      const available = measureAvailableWidth();
+      if (available === null) return;
       const fitZoom = computeFitZoom(available);
       // Не трогаем зум, если бумага и так помещается (fitZoom === 1) — иначе
       // ресайз окна на широком экране сбрасывал бы ручной зум пользователя.
@@ -52,10 +68,14 @@ export function PreviewCanvas() {
         setZoom(fitZoom);
       }
     }
-    fitToContainerWidth();
-    window.addEventListener('resize', fitToContainerWidth);
-    return () => window.removeEventListener('resize', fitToContainerWidth);
-  }, [setZoom]);
+    autoFitIfNarrower();
+    window.addEventListener('resize', autoFitIfNarrower);
+    window.addEventListener('orientationchange', autoFitIfNarrower);
+    return () => {
+      window.removeEventListener('resize', autoFitIfNarrower);
+      window.removeEventListener('orientationchange', autoFitIfNarrower);
+    };
+  }, [measureAvailableWidth, setZoom]);
 
   return (
     <div className="flex h-full flex-1 flex-col overflow-hidden">
@@ -65,7 +85,7 @@ export function PreviewCanvas() {
       >
         <InvoicePaper />
       </div>
-      <CanvasToolbar />
+      <CanvasToolbar onFitToWidth={fitToContainerWidth} />
     </div>
   );
 }

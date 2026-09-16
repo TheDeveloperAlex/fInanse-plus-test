@@ -16,7 +16,11 @@ export function clampZoom(value: number): number {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(value * 100) / 100));
 }
 
-export function CanvasToolbar() {
+type CanvasToolbarProps = {
+  onFitToWidth: () => void;
+};
+
+export function CanvasToolbar({ onFitToWidth }: CanvasToolbarProps) {
   const [zoom, setZoom] = useAtom(zoomAtom);
 
   return (
@@ -36,7 +40,7 @@ export function CanvasToolbar() {
         label="Zoom in"
         onClick={() => setZoom(clampZoom(zoom + ZOOM_STEP))}
       />
-      <Button variant="ghost" className="ml-1" onClick={() => setZoom(1)}>
+      <Button variant="ghost" className="ml-1" onClick={onFitToWidth}>
         Fit
       </Button>
       <IconButton icon={Printer} label="Print" className="ml-1" onClick={() => window.print()} />
