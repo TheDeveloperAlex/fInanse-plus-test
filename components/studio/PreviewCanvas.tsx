@@ -8,19 +8,13 @@ import printStyles from '@/styles/print.module.css';
 import { CanvasToolbar, clampZoom, ZOOM_STEP } from './CanvasToolbar';
 
 const PAPER_WIDTH_PX = 794;
-const MIN_AUTO_FIT_ZOOM = 0.3;
-
-function computeFitZoom(availableWidth: number): number {
-  const fitted = Math.round((availableWidth / PAPER_WIDTH_PX) * 100) / 100;
-  return Math.max(MIN_AUTO_FIT_ZOOM, Math.min(1, fitted));
-}
 
 export function PreviewCanvas() {
   const setZoom = useSetAtom(zoomAtom);
   const paperContainerRef = useRef<HTMLDivElement>(null);
 
-  // Общий для авто-фита и кнопки "Fit" расчёт: ширина контейнера за вычетом
-  // его собственных отступов — то, что реально доступно бумаге.
+  // Ширина контейнера за вычетом его собственных отступов — то, что реально
+  // доступно бумаге для кнопки "Fit".
   const measureAvailableWidth = useCallback((): number | null => {
     const container = paperContainerRef.current;
     if (!container) return null;
@@ -30,13 +24,13 @@ export function PreviewCanvas() {
     return container.clientWidth - paddingLeft - paddingRight;
   }, []);
 
-  // Кнопка "Fit" (CanvasToolbar) всегда пересчитывает реальное вписывание,
-  // а не сбрасывает зум на фиксированные 100% — документ на мобильном экране
-  // шире контейнера чаще, чем уже.
+  // Кнопка "Fit" (CanvasToolbar) — единственный способ подогнать зум под
+  // контейнер; никакого автоматического пересчёта при монтировании/ресайзе,
+  // иначе ручной зум пользователя стирается при каждом изменении окна.
   const fitToContainerWidth = useCallback(() => {
     const available = measureAvailableWidth();
     if (available === null) return;
-    setZoom(computeFitZoom(available));
+    setZoom(clampZoom(available / PAPER_WIDTH_PX));
   }, [measureAvailableWidth, setZoom]);
 
   useEffect(() => {
@@ -54,34 +48,11 @@ export function PreviewCanvas() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [setZoom]);
 
-  // UI-SPEC "Адаптив": подгоняем зум под реальную доступную ширину контейнера
-  // превью при монтировании, ресайзе и повороте экрана — документ сам никогда
-  // не перестраивается (см. InvoicePaper.module.css), только масштабируется.
-  useEffect(() => {
-    function autoFitIfNarrower() {
-      const available = measureAvailableWidth();
-      if (available === null) return;
-      const fitZoom = computeFitZoom(available);
-      // Не трогаем зум, если бумага и так помещается (fitZoom === 1) — иначе
-      // ресайз окна на широком экране сбрасывал бы ручной зум пользователя.
-      if (fitZoom < 1) {
-        setZoom(fitZoom);
-      }
-    }
-    autoFitIfNarrower();
-    window.addEventListener('resize', autoFitIfNarrower);
-    window.addEventListener('orientationchange', autoFitIfNarrower);
-    return () => {
-      window.removeEventListener('resize', autoFitIfNarrower);
-      window.removeEventListener('orientationchange', autoFitIfNarrower);
-    };
-  }, [measureAvailableWidth, setZoom]);
-
   return (
     <div className="flex h-full flex-1 flex-col overflow-hidden">
       <div
         ref={paperContainerRef}
-        className={`flex flex-1 items-start justify-center overflow-auto p-4 md:p-8 ${printStyles.printSurface}`}
+        className={`flex flex-1 items-start justify-start overflow-auto p-4 md:p-8 ${printStyles.printSurface}`}
       >
         <InvoicePaper />
       </div>

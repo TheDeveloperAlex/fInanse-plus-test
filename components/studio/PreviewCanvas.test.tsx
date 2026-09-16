@@ -10,10 +10,6 @@ function stubClientWidth(width: number) {
   });
 }
 
-// A fresh store per test isolates zoomAtom: PreviewCanvas's auto-fit effect only
-// calls setZoom when the container is narrower than the paper, so without a
-// per-test store, a "wide enough" case run after a "narrow" case would inherit
-// the previous test's zoom instead of the default 100%.
 function renderWithStore(store: ReturnType<typeof createStore>) {
   return render(
     <Provider store={store}>
@@ -22,46 +18,48 @@ function renderWithStore(store: ReturnType<typeof createStore>) {
   );
 }
 
-describe('PreviewCanvas auto-fit zoom', () => {
+describe('PreviewCanvas zoom', () => {
   afterEach(() => {
     // Restore jsdom's default so this stub doesn't leak into later test files.
     stubClientWidth(0);
   });
 
-  it('shrinks the zoom to fit when the container is narrower than the paper', () => {
+  it('defaults to 100% zoom regardless of container width', () => {
     stubClientWidth(390);
-    renderWithStore(createStore());
-
-    expect(screen.getByText('49%')).toBeInTheDocument();
-  });
-
-  it('leaves the zoom at 100% when the container is wide enough for the paper', () => {
-    stubClientWidth(1200);
     renderWithStore(createStore());
 
     expect(screen.getByText('100%')).toBeInTheDocument();
   });
 
-  it('recomputes the fit-to-width value on orientationchange, just like resize', () => {
+  it('does not change zoom when the window resizes', () => {
     stubClientWidth(1200);
     renderWithStore(createStore());
     expect(screen.getByText('100%')).toBeInTheDocument();
 
     stubClientWidth(390);
-    fireEvent(window, new Event('orientationchange'));
+    fireEvent(window, new Event('resize'));
 
-    expect(screen.getByText('49%')).toBeInTheDocument();
+    expect(screen.getByText('100%')).toBeInTheDocument();
   });
 
-  it('Fit recomputes the real fit-to-width value instead of resetting to 100%', () => {
-    stubClientWidth(390);
+  it('Fit click sets zoom to the container fit ratio via the toolbar clamp', () => {
+    // 700 / 794 = 0.881... -> clampZoom rounds to 0.88, within [0.5, 1.5].
+    stubClientWidth(700);
     renderWithStore(createStore());
-    expect(screen.getByText('49%')).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole('button', { name: 'Zoom in' }));
-    expect(screen.getByText('59%')).toBeInTheDocument();
+    expect(screen.getByText('100%')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Fit' }));
-    expect(screen.getByText('49%')).toBeInTheDocument();
+
+    expect(screen.getByText('88%')).toBeInTheDocument();
+  });
+
+  it('Fit click floors at the toolbar minimum zoom, not a separate 30% floor', () => {
+    // 200 / 794 = 0.25 -> below MIN_ZOOM (0.5), so clampZoom raises it to 0.5.
+    stubClientWidth(200);
+    renderWithStore(createStore());
+
+    fireEvent.click(screen.getByRole('button', { name: 'Fit' }));
+
+    expect(screen.getByText('50%')).toBeInTheDocument();
   });
 });

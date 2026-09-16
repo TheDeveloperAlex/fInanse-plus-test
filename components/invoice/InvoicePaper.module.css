@@ -13,9 +13,12 @@
    * вьюпорта (никакого max-width: 100%): раскладка на телефоне должна быть
    * идентична десктопу и итоговому PDF. Вписывание в экран — только через
    * transform: scale (PreviewCanvas.tsx) или горизонтальный/вертикальный скролл
-   * контейнера, никогда через сжатие самого документа.
+   * контейнера, никогда через сжатие самого документа. flex-shrink: 0 обязателен —
+   * .paper это flex-child в PreviewCanvas, и без него flex сжимает элемент ниже
+   * заданной width даже без max-width (сам по себе flex-shrink:1 по умолчанию).
    */
   width: 794px;
+  flex-shrink: 0;
   background: #ffffff;
   color: #14161b;
   border-radius: 2px;
@@ -26,7 +29,7 @@
   font-family: var(--tpl-font);
   print-color-adjust: exact;
   -webkit-print-color-adjust: exact;
-  transform-origin: top center;
+  transform-origin: top left;
 }
 
 .paper[data-density='compact'] {
